@@ -4,7 +4,7 @@ https://www.youtube.com/watch?v=js_0wjzuMfc
 
 Modified to accept python's builtin class types
 
-'''python
+```python
 
 from contracts import Base, PositiveInteger
 
@@ -26,9 +26,9 @@ class Player(Base):
   def left(self, dx):
     self.x -= dx
 
-'''
+```
 
-'''
+```
 >>> p = Player('', 0, 0)
 ...
 AssertionError: Must be nonempty
@@ -45,4 +45,4 @@ AssertionError: Must be > 0
 >>> p.right(1.0)
 ...
 AssertionError: Expected <class 'int'>
-'''
+```
