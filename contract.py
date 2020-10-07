@@ -61,6 +61,9 @@ class Nonempty(Contract):
 class PositiveInteger(Positive, int):
   pass
 
+class NegitiveInteger(Negitive, int):
+  pass
+
 class NonemptyString(Nonempty, str):
   pass
 
