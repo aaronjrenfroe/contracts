@@ -32,15 +32,11 @@ class Typed(Contract):
     super().check(value)
 
 
+python_builtin_types = [int, float, dict, bool, list, complex, bytes, bytearray, set, map, object, tuple]
 
-class Integer(Typed):
-  type = int
+for v in python_builtin_types:
+  globals()[v.__name__] = type(v.__name__, (Typed, ), {'type':v})
 
-class String(Typed):
-  type = str
-
-class Float(Typed):
-  type = float
 
 class Negitive(Contract):
 
@@ -62,10 +58,10 @@ class Nonempty(Contract):
     super().check(value)
 
 # Call it "Composition"
-class PositiveInteger(Positive, Integer):
+class PositiveInteger(Positive, int):
   pass
 
-class NonemptyString(Nonempty, String):
+class NonemptyString(Nonempty, str):
   pass
 
 from functools import wraps
@@ -113,7 +109,7 @@ class Base(metaclass=BaseMeta):
       contract = val() # Integer()
       contract.__set_name__(cls, name)
       setattr(cls, name,contract)
-   
+  
   def __init__(self, *args):
     ann = self.__annotations__
     assert len(args) == len(ann), f'Expected {len(ann)} arguments'
@@ -121,5 +117,6 @@ class Base(metaclass=BaseMeta):
       satattr(self, name, val)
   
   def __repr__(self):
-    args = ','.join([repr(getattr(self, name)) for name in self.__annotations__])
+    args = ', '.join([repr(getattr(self, name)) for name in self.__annotations__])
     return f'{type(self).__name__}({args})'
+
