@@ -6,16 +6,17 @@ Modified to accept python's builtin class types
 
 ```python
 
-from contracts import Base, PositiveInteger
+from contract import Base, PositiveInteger
 
-dx: PositiveInteger
+# global annotations
+dx: PositiveInteger # Only need to import annotation if used outside of class inheriting from base class
 
 class Player(Base):
   name: NonemptyString
   x: int
   y: int
   
-  def __init__(self, name, x, y):
+  def __init__(self, name, x, y): # <- Method annotations work here too!
     self.name = name
     self.x = x
     self.y = y
@@ -25,6 +26,13 @@ class Player(Base):
   
   def left(self, dx):
     self.x -= dx
+    
+  # method annotations
+  def up(self, dy: PositiveInteger): 
+    self.y += dy
+
+  def down(self, dy: NegitiveInteger):
+    self.y += dy
 
 ```
 
@@ -43,6 +51,10 @@ AssertionError: Expected <class 'int'>
 AssertionError: Must be > 0
 
 >>> p.right(1.0)
+...
+AssertionError: Expected <class 'int'>
+
+>>> p.left(-0.5)
 ...
 AssertionError: Expected <class 'int'>
 ```
